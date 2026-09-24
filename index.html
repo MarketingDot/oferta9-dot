@@ -203,10 +203,12 @@
             <span class="reserved">Oferta reservada</span>
           </div>
 
-          <!-- data-checkout: link de compra da Yampi (/r/). data-promocode: cupom que abate o preco.
-               VAZIO porque esta oferta nao tem cupom: os 2 pouches ja fecham os R$ 299,90 da
-               pagina. O caderno entra como brinde e nao tem token, entao vai por fora. -->
-          <a class="btn" href="#" id="checkoutBtn" data-open-flavors data-checkout="https://seguro.minhadot.com/r/" data-promocode="">
+          <!-- data-checkout: link de compra da Yampi (/r/). data-promocode: cupom que entra no link.
+               DQ4CADVT8 NAO abate preco: os 2 pouches sozinhos ja fecham os R$ 299,90 da pagina.
+               Ele existe para injetar o Caderno DOT e o frete gratis, que nao tem token proprio
+               e por isso nao cabem no /r/. Se um dia ele vier com desconto junto, o carrinho
+               fecha abaixo do que a pagina promete. -->
+          <a class="btn" href="#" id="checkoutBtn" data-open-flavors data-checkout="https://seguro.minhadot.com/r/" data-promocode="DQ4CADVT8">
             Comprar agora
             <svg width="22" height="22" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
