@@ -749,7 +749,26 @@ button { font: inherit; color: inherit; }
 .pick.has-focus { outline: 2px solid var(--blue); outline-offset: 2px; }
 .pick.is-won { cursor: default; }
 
-.pick-grid--gifts .pick--wide { grid-column: 1 / -1; justify-self: center; width: min(100%, 300px); }
+/* selo do cartao de sabor: mesma abinha amarela do seletor antigo, mas
+   pendurada a esquerda -- a direita o check do cartao marcado passa por cima */
+.pick__badge {
+  position: absolute;
+  top: 0; left: 10px;
+  padding: 2px 7px;
+  border-radius: 0 0 6px 6px;
+  background: var(--yellow);
+  color: var(--navy);
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+
+/* brindes empilhados, um em cima do outro. Como sao 2 numa coluna so, a
+   imagem encolhe para as duas caberem sem rolar o popup num celular baixo */
+.pick-grid--gifts { grid-template-columns: 1fr; }
+.pick-grid--gifts .pick__media img { height: clamp(78px, calc(26dvh - 60px), 128px); }
 
 
 /* rodape das etapas 1 e 2: mostra o que ja esta garantido enquanto o

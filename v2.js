@@ -79,14 +79,15 @@
   setInterval(tick, 1000);
 
   /* ---------- Popup de sabores -----------------------------------
-     2 etapas: os 2 pouches num contador por sabor, e os brindes.
-     Fechar a etapa avanca sozinho; a seta volta; a barra marca o progresso.
+     3 etapas: o sabor do 1o pouch, o do 2o, e os brindes. Um pouch por
+     vez, cada um no 2x2 de sempre -- escolher avanca sozinho, a seta
+     volta, a barra marca o progresso.
 
-     O contador distribui 2 unidades entre os 4 sabores, do jeito que a pessoa
-     quiser -- as 2 do mesmo sabor inclusive. O + trava quando as 2 estao dadas.
+     Repetir o sabor e permitido: os dois radios aceitam o mesmo valor e o
+     link soma em TOKEN:2.
 
      A escolha sai por dois caminhos:
-       - data-pagos ("Menta:2" ou "Menta:1, Citrus:1") no botao de checkout
+       - data-pagos ("Menta, Citrus") no botao de checkout
        - o link de compra da Yampi, quando o botao tiver data-checkout
   ---------------------------------------------------------------- */
   var modal = document.getElementById('flavorModal');
@@ -106,13 +107,10 @@
     var giroTimer = null;
     var giroIdx = 0;
 
-    var TITULOS = ['Escolha seus 2 pouches', 'Você garantiu os brindes'];
+    var TITULOS = ['Escolha o 1º pouch', 'Escolha o 2º pouch', 'Você garantiu os brindes'];
 
-    var PAGOS      = 2;   // quantas unidades a etapa 1 distribui
-    var contas     = [].slice.call(modal.querySelectorAll('[data-conta]'));
-    var contaTotal = modal.querySelector('[data-conta-total]');
-    var contaLinha = modal.querySelector('.conta-total');
-    var ULTIMA     = paineis.length;
+    var POUCHES = ['pouch1', 'pouch2'];
+    var ULTIMA  = paineis.length;
     var etapa = 1;
     var anterior = null;   // quem tinha o foco antes de abrir
 
@@ -120,15 +118,9 @@
       return modal.querySelector('input[name="' + grupo + '"]:checked');
     }
 
-    function qtd(caixa) { return Number(caixa.dataset.qtd) || 0; }
-
-    function somaPagos() {
-      return contas.reduce(function (t, caixa) { return t + qtd(caixa); }, 0);
-    }
-
-    // tudo na mao: as 2 unidades distribuidas
+    // tudo na mao: os dois pouches escolhidos
     function completo() {
-      return somaPagos() === PAGOS;
+      return POUCHES.every(function (g) { return !!escolhido(g); });
     }
 
     /* Link de compra da Yampi: /r/TOKEN:QTD,TOKEN:QTD
@@ -149,7 +141,10 @@
         acc[token] += n;
       }
 
-      contas.forEach(function (caixa) { if (qtd(caixa)) soma(caixa.dataset.yampi, qtd(caixa)); });
+      POUCHES.forEach(function (g) {
+        var escolha = escolhido(g);
+        if (escolha) soma(escolha.dataset.yampi, 1);   // sabor repetido vira TOKEN:2
+      });
       brindes.forEach(function (el) { soma(el.dataset.yampi, 1); });
 
       var url = new URL(base + ordem.map(function (t) { return t + ':' + acc[t]; }).join(','));
@@ -195,33 +190,16 @@
         i.parentNode.classList.toggle('is-on', i.checked);
       });
 
-      var total  = somaPagos();
-
-      contas.forEach(function (caixa) {
-        var n = qtd(caixa);
-        caixa.querySelector('[data-qtd-txt]').textContent = n;
-        caixa.classList.toggle('is-on', n > 0);
-        // cada cartao tem dois [data-mais] (o ADICIONAR + e o + do pill) e o CSS
-        // mostra um de cada vez -- desabilitar so o primeiro deixaria o outro
-        // aceso depois de fechar as 3 unidades
-        caixa.querySelectorAll('[data-menos]').forEach(function (b) { b.disabled = n === 0; });
-        caixa.querySelectorAll('[data-mais]').forEach(function (b) { b.disabled = total >= PAGOS; });
-      });
-
-      if (contaTotal) contaTotal.textContent = total;
-      if (contaLinha) contaLinha.classList.toggle('is-full', total === PAGOS);
-
-
       if (checkout) {
-        checkout.dataset.pagos = contas
-          .filter(function (caixa) { return qtd(caixa); })
-          .map(function (caixa) { return caixa.dataset.sabor + ':' + qtd(caixa); })
+        checkout.dataset.pagos = POUCHES
+          .map(function (g) { var e = escolhido(g); return e ? e.dataset.sabor : null; })
+          .filter(Boolean)
           .join(', ');
 
         var base = checkout.dataset.checkout;
-        // so monta o link com a etapa 1 fechada: link pela metade leva
-        // carrinho pela metade
-        if (base && total === PAGOS) {
+        // so monta o link com os dois sabores escolhidos: link pela metade
+        // leva carrinho pela metade
+        if (base && completo()) {
           try { checkout.href = linkYampi(base); } catch (e) {}
         }
       }
@@ -257,7 +235,9 @@
 
     // ate onde da para avancar: so passa da etapa se ela ja foi respondida
     function limite() {
-      if (somaPagos() < PAGOS) return 1;
+      for (var i = 0; i < POUCHES.length; i++) {
+        if (!escolhido(POUCHES[i])) return i + 1;
+      }
       return ULTIMA;
     }
 
@@ -275,7 +255,7 @@
       // reflow entre o hidden sair e a classe entrar, senao nao ha transicao
       void modal.offsetWidth;
       modal.classList.add('is-open');
-      var alvo = modal.querySelector('.modal__panel[data-step="1"] [data-mais]:not(:disabled)') || cta;
+      var alvo = modal.querySelector('.modal__panel[data-step="1"] .pick input') || cta;
       if (alvo) alvo.focus();
     }
 
@@ -351,35 +331,16 @@
 
     modal.addEventListener('change', render);
 
-    /* + e - : distribuem as 2 unidades. Fechar as 2 avanca sozinho -- mas so
-       quando o toque foi no +, senao tirar e repor uma unidade jogaria a
-       pessoa para a frente sem ela ter pedido. */
+    // escolher avanca sozinho -- o atraso deixa o selo aparecer antes de trocar.
+    // Vai no click do input, e nao no change: quem volta do checkout encontra os
+    // sabores restaurados pelo navegador, e clicar de novo no sabor que ja estava
+    // marcado nao dispara change -- a pessoa ficava presa na etapa. O clique no
+    // cartao (label) chega aqui como um click no input, entao conta uma vez so.
     modal.addEventListener('click', function (e) {
-      var btn = e.target.closest && e.target.closest('[data-mais], [data-menos]');
-      if (!btn) return;
-
-      var caixa = btn.closest('[data-conta]');
-      var mais  = btn.hasAttribute('data-mais');
-      if (mais && somaPagos() >= PAGOS) return;
-
-      caixa.dataset.qtd = mais ? qtd(caixa) + 1 : Math.max(0, qtd(caixa) - 1);
+      var input = e.target;
+      if (!input.matches || !input.matches('.pick input')) return;
       render();
-
-      if (mais && somaPagos() === PAGOS) {
-        setTimeout(function () { if (!modal.hidden) ir(2); }, 380);
-      }
-    });
-
-    /* paridade com o seletor classico: com o sabor ainda em zero, o cartao
-       inteiro adiciona. E so um atalho para o proprio ADICIONAR +, entao a trava
-       das 2 unidades e o avanco automatico continuam num lugar so. */
-    modal.addEventListener('click', function (e) {
-      if (!e.target.closest) return;
-      if (e.target.closest('[data-mais], [data-menos]')) return;   // o handler acima ja cuidou
-      var caixa = e.target.closest('.conta');
-      if (!caixa || caixa.classList.contains('is-on')) return;     // com quantidade, quem manda e o pill
-      var add = caixa.querySelector('[data-mais]:not(:disabled)');
-      if (add) add.click();
+      setTimeout(function () { if (!modal.hidden) ir(etapa + 1); }, 320);
     });
 
     cta.addEventListener('click', function () {
@@ -390,7 +351,7 @@
         if (destino && destino !== '#') location.href = destino;
         return;
       }
-      if (etapa === 1 && somaPagos() < PAGOS) return;
+      if (etapa < ULTIMA && etapa > limite()) return;
       if (etapa < ULTIMA) ir(etapa + 1);
     });
 

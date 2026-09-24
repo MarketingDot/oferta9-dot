@@ -399,68 +399,76 @@
     </div>
 
     <div class="modal__steps" aria-hidden="true">
-      <span class="modal__step"></span><span class="modal__step"></span>
+      <span class="modal__step"></span><span class="modal__step"></span><span class="modal__step"></span>
     </div>
 
     <div class="modal__body">
       <div class="modal__track" id="modalTrack">
-      <fieldset class="modal__panel modal__panel--conta" data-step="1">
-        <legend class="sr-only">Sabores dos 2 pouches</legend>
-
-        <p class="conta-total" aria-live="polite"><strong data-conta-total>0</strong>/2 sabores</p>
-
-        <div class="conta-grid">
-
-          <div class="conta" data-conta data-qtd="0" data-yampi="T7OSNI4X3Z" data-sabor="Menta">
-            <span class="conta__badge">O mais vendido</span>
-            <span class="conta__media"><img src="assets/seletor-menta.webp" alt="" width="400" height="400" loading="lazy"></span>
-            <span class="conta__name">Menta</span>
-            <button class="conta__add" type="button" data-mais aria-label="Adicionar um pouch de Menta">Adicionar <svg width="13" height="13" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            <span class="conta__steps">
-              <button class="conta__btn" type="button" data-menos aria-label="Tirar um pouch de Menta"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
-              <span class="conta__qtd" data-qtd-txt>0</span>
-              <button class="conta__btn" type="button" data-mais aria-label="Adicionar um pouch de Menta"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            </span>
-          </div>
-
-          <div class="conta" data-conta data-qtd="0" data-yampi="KEWK5304MU" data-sabor="Frutas Vermelhas">
-            <span class="conta__media"><img src="assets/seletor-frutas.webp" alt="" width="400" height="400" loading="lazy"></span>
-            <span class="conta__name">Frutas Vermelhas</span>
-            <button class="conta__add" type="button" data-mais aria-label="Adicionar um pouch de Frutas Vermelhas">Adicionar <svg width="13" height="13" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            <span class="conta__steps">
-              <button class="conta__btn" type="button" data-menos aria-label="Tirar um pouch de Frutas Vermelhas"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
-              <span class="conta__qtd" data-qtd-txt>0</span>
-              <button class="conta__btn" type="button" data-mais aria-label="Adicionar um pouch de Frutas Vermelhas"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            </span>
-          </div>
-
-          <div class="conta" data-conta data-qtd="0" data-yampi="5IM1U6QS0Q" data-sabor="Citrus">
-            <span class="conta__media"><img src="assets/seletor-citrus.webp" alt="" width="400" height="400" loading="lazy"></span>
-            <span class="conta__name">Citrus</span>
-            <button class="conta__add" type="button" data-mais aria-label="Adicionar um pouch de Citrus">Adicionar <svg width="13" height="13" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            <span class="conta__steps">
-              <button class="conta__btn" type="button" data-menos aria-label="Tirar um pouch de Citrus"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
-              <span class="conta__qtd" data-qtd-txt>0</span>
-              <button class="conta__btn" type="button" data-mais aria-label="Adicionar um pouch de Citrus"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            </span>
-          </div>
-
-          <div class="conta" data-conta data-qtd="0" data-yampi="R5F5MQP29R" data-sabor="Melancia com Limão">
-            <span class="conta__badge">Edição limitada</span>
-            <span class="conta__media"><img src="assets/seletor-melancia.webp" alt="" width="400" height="400" loading="lazy"></span>
-            <span class="conta__name">Melancia com Limão</span>
-            <button class="conta__add" type="button" data-mais aria-label="Adicionar um pouch de Melancia com Limão">Adicionar <svg width="13" height="13" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            <span class="conta__steps">
-              <button class="conta__btn" type="button" data-menos aria-label="Tirar um pouch de Melancia com Limão"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
-              <span class="conta__qtd" data-qtd-txt>0</span>
-              <button class="conta__btn" type="button" data-mais aria-label="Adicionar um pouch de Melancia com Limão"><svg width="16" height="16" aria-hidden="true"><use href="#i-plus"/></svg></button>
-            </span>
-          </div>
-
+      <fieldset class="modal__panel" data-step="1">
+        <legend class="sr-only">Sabor do 1º pouch</legend>
+        <div class="pick-grid">
+          <label class="pick">
+            <input type="radio" name="pouch1" value="menta" data-yampi="T7OSNI4X3Z" data-sabor="Menta">
+            <span class="pick__badge">O mais vendido</span>
+            <span class="pick__media"><img src="assets/sabor-menta.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Menta</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          <label class="pick">
+            <input type="radio" name="pouch1" value="frutas" data-yampi="KEWK5304MU" data-sabor="Frutas Vermelhas">
+            <span class="pick__media"><img src="assets/sabor-frutas.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Frutas Vermelhas</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          <label class="pick">
+            <input type="radio" name="pouch1" value="citrus" data-yampi="5IM1U6QS0Q" data-sabor="Citrus">
+            <span class="pick__media"><img src="assets/sabor-citrus.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Citrus</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          <label class="pick">
+            <input type="radio" name="pouch1" value="melancia" data-yampi="R5F5MQP29R" data-sabor="Melancia com Limão">
+            <span class="pick__badge">Edição limitada</span>
+            <span class="pick__media"><img src="assets/sabor-melancia.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Melancia com Limão</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
         </div>
       </fieldset>
 
-      <div class="modal__panel" data-step="2" inert aria-hidden="true">
+      <fieldset class="modal__panel" data-step="2" inert aria-hidden="true">
+        <legend class="sr-only">Sabor do 2º pouch</legend>
+        <div class="pick-grid">
+          <label class="pick">
+            <input type="radio" name="pouch2" value="menta" data-yampi="T7OSNI4X3Z" data-sabor="Menta">
+            <span class="pick__badge">O mais vendido</span>
+            <span class="pick__media"><img src="assets/sabor-menta.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Menta</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          <label class="pick">
+            <input type="radio" name="pouch2" value="frutas" data-yampi="KEWK5304MU" data-sabor="Frutas Vermelhas">
+            <span class="pick__media"><img src="assets/sabor-frutas.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Frutas Vermelhas</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          <label class="pick">
+            <input type="radio" name="pouch2" value="citrus" data-yampi="5IM1U6QS0Q" data-sabor="Citrus">
+            <span class="pick__media"><img src="assets/sabor-citrus.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Citrus</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          <label class="pick">
+            <input type="radio" name="pouch2" value="melancia" data-yampi="R5F5MQP29R" data-sabor="Melancia com Limão">
+            <span class="pick__badge">Edição limitada</span>
+            <span class="pick__media"><img src="assets/sabor-melancia.webp" alt="" loading="lazy"></span>
+            <span class="pick__name">Melancia com Limão</span>
+            <svg class="pick__check" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="currentColor"/><path d="m7 12.4 3.2 3.2L17 8.8" fill="none" stroke="#04142f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="modal__panel" data-step="3" inert aria-hidden="true">
         <div class="pick-grid pick-grid--gifts">
           <div class="pick is-won">
             <span class="pick__media"><img src="assets/brinde-bloco.webp" alt="" loading="lazy"></span>
